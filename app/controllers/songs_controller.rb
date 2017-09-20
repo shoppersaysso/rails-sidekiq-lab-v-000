@@ -1,8 +1,12 @@
 class SongsController < ApplicationController
-  require 'csv'
 
   def index
     @songs = Song.all
+  end
+
+  def upload
+    LeadsWorker.perform_async(params[:leads].path)
+    redirect_to customers_path
   end
 
   def show
@@ -59,4 +63,3 @@ class SongsController < ApplicationController
     params.require(:song).permit(:title, :artist_name)
   end
 end
-
